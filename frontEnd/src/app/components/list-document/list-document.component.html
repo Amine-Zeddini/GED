@@ -1,0 +1,313 @@
+
+<app-toolbar></app-toolbar>
+<app-side></app-side>
+
+<div class="" id="page-wrapper">
+  <div class="container-fluid">
+    <div class="row row-stat">
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-default panel-table">
+              <div class="panel-heading panel-heading-no-divider">Liste des documents</div>
+
+              <div class="container form-group">
+                <div class="col-sm-12">
+                  <input
+                    id="form-control-1"
+                    type="text"
+                    class="form-control"
+                    placeholder="Search Here"
+                    [(ngModel)]="search"
+                    (keyup)="searchDocument()"
+                  />
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Titre</th>
+                      <th>Description</th>
+                      <th>Administration</th>
+                      <th>Type de Document</th>
+
+                      <th style="width: 5%"></th>
+
+                      <th style="width: 5%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let document of documentsPerPage">
+                    
+                      <td>{{ document.title }}</td>
+                      <td>
+                        {{ document.description }}
+                      </td>
+                      <td>
+                        {{ document.administrationID?.libelle }}
+                      </td>
+                      <td>
+                        {{ document.typeDocmentID?.typeDocument }}
+                      </td>
+                      <td class="actions">
+                        <a (click)="onEdit(document)">
+                          <span
+                            data-toggle="modal"
+                            data-target="#modal"
+                            class="iconify"
+                            data-icon="akar-icons:edit"
+                            data-inline="false"
+                            style="color: green"
+                          ></span>
+                        </a>
+                      </td>
+
+                      <td class="actions">
+                        <a (click)="openModalDelete(document)">
+                          <span
+                            data-toggle="modal"
+                            data-target="#modalDelete"
+                            class="iconify"
+                            data-icon="zmdi-delete"
+                            data-inline="false"
+                            style="color: red"
+                          ></span>
+                        </a>
+                      </td>
+
+                      
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row justify-content-end">
+                <div class="panel-body">
+                  <div class="xs-mt-10 xs-mb-10">
+                    <div class="xs-mb-50 xs-mt-40">
+                      <pagination
+                        [itemsPerPage]="5"
+                        [(ngModel)]="currentPage"
+                        [totalItems]="documentsToShow.length"
+                        (pageChanged)="pageChanged($event)"
+                      ></pagination>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- The Modal  edit -->
+
+<div class="modal fade" id="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        Modifier le document
+                <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="row row-stat">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div id="errorMsg" *ngIf="errorMessage">
+                <span>{{ errorMessage }}</span>
+              </div>
+              <div id="successMsg" *ngIf="msSuccess">
+                <span>{{ msSuccess }}</span>
+              </div>
+              <div class="xs-mt-10 xs-mb-10">
+                <div class="row">
+                  <div class="col-md-8">
+                    <form
+                    class="form-horizontal"
+                    [formGroup]="documentForm"
+                    novalidate
+                    (ngSubmit)="editDocument(document)"
+                  >
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-5 control-label"
+                          for="form-control-1"
+                          >Titre:</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="title"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !documentForm.controls['title'].valid &&
+                              documentForm.controls['title'].touched
+                            "
+                          >
+                            title is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-5 control-label"
+                          for="form-control-1"
+                          >Description:</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="description"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !documentForm.controls['description'].valid &&
+                              documentForm.controls['description'].touched
+                            "
+                          >
+                          description is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  
+
+                 
+
+                  
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-5 control-label"
+                          for="form-control-9"
+                          >Administration</label
+                        >
+                        <div class="col-sm-7">
+                          <ng-select
+                            [items]="administrations"
+                            bindLabel="libelle"
+                            bindValue="_id"
+                            placeholder=" add  Document"
+                            formControlName="administrationID"
+                          >
+                          </ng-select>
+                          <span
+                            class="error"
+                            *ngIf="
+                              !documentForm.controls['administrationID'].valid &&
+                              documentForm.controls['administrationID'].touched
+                            "
+                          >
+                          administration is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-5 control-label"
+                          for="form-control-9"
+                          >Type de Document</label
+                        >
+                        <div class="col-sm-7">
+                          <ng-select
+                            [items]="typeDocuments"
+                            bindLabel="typeDocument"
+                            bindValue="_id"
+
+                            placeholder=" add type Document"
+                            formControlName="typeDocmentID"
+                          >
+                          </ng-select>
+                          <span
+                            class="error"
+                            *ngIf="
+                              !documentForm.controls['typeDocmentID'].valid &&
+                              documentForm.controls['typeDocmentID'].touched
+                            "
+                          >
+                            typeDocument is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                 
+
+                  
+
+
+                    <button
+                      class="btn postBtn"
+                      id="add"
+                      [disabled]="!documentForm.valid"
+                    >
+                      Modifier
+                    </button>
+                  </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal  delete -->
+
+<div class="modal fade" id="modalDelete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        Supprimer le document
+                <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="row row-stat">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              Voulez-vous vraiment supprimer cette document 
+              <a (click)="DeleteDocument(document)" data-dismiss="modal">
+                <span
+                  class="iconify"
+                  data-icon="dashicons:yes-alt"
+                  data-inline="false"
+                  style="color: green; font-size: 40px"
+                >
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

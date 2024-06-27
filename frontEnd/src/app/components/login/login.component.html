@@ -1,0 +1,95 @@
+<div class="">
+  <div class="container-fluid">
+    <div class="row row-stat">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading panel-heading-divider">
+            Bienvenue dans la GED :
+            <span class="panel-subtitle"></span>
+          </div>
+          <div class="panel-body">
+            <img src="../../../assets/images/img.jpg" />
+            <div id="errorMsg" *ngIf="errorMessage">
+              <span>{{ errorMessage }}</span>
+            </div>
+
+            <div class="xs-mt-10 xs-mb-10">
+              <div class="row justify-content-center">
+                <div class="col-md-7">
+                  <form
+                    class="form-horizontal"
+                    [formGroup]="loginForm"
+                    novalidate
+                    (ngSubmit)="loginUser()"
+                  >
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-1"
+                          >Nom d'utilisateur</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="username"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !loginForm.controls['username'].valid &&
+                              loginForm.controls['username'].touched
+                            "
+                          >
+                            Username is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-4"
+                          >Mot de passe
+                        </label>
+                        <div class="col-sm-9">
+                          <input
+                            id="form-control-4"
+                            class="form-control"
+                            type="password"
+                            formControlName="password"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !loginForm.controls['password'].valid &&
+                              loginForm.controls['password'].touched
+                            "
+                          >
+                            Password is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      class="btn postBtn"
+                      id="loginbtn"
+                      [disabled]="!loginForm.valid"
+                    >
+                      Ajouter
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

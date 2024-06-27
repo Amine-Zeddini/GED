@@ -1,0 +1,98 @@
+<app-toolbar></app-toolbar>
+<app-side></app-side>
+
+<div class="" id="page-wrapper">
+  <div class="container-fluid">
+    <div class="row row-stat">
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-default panel-table">
+              <div class="panel-heading panel-heading-no-divider">List CPF</div>
+
+              <div class="container form-group">
+                <div class="col-sm-12">
+                  <input
+                    id="form-control-1"
+                    type="text"
+                    class="form-control"
+                    placeholder="Search Here"
+                    [(ngModel)]="search"
+                    (keyup)="searchUsers()"
+                  />
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 32px"></th>
+                      <th>User Name</th>
+                      <th>Email</th>
+                      <th style="width: 5%"></th>
+
+                      <th style="width: 5%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of usersPerPage">
+                      <td>
+                        <img
+                          class="non-responsive img-circle"
+                          src="http://res.cloudinary.com/dxlpuufpr/image/upload/v{{
+                            user.picVersion
+                          }}/{{ user.picId }}"
+                          width="32"
+                          height="32"
+                        />
+                      </td>
+                      <td>{{ user.username }}</td>
+                      <td>
+                        {{ user.email }}
+                      </td>
+
+                      <td class="actions">
+                        <span
+                          class="iconify"
+                          data-icon="akar-icons:edit"
+                          data-inline="false"
+                          style="color: green"
+                        ></span>
+                      </td>
+
+                      <td class="actions">
+                        <a (click)="DeleteUser(user)">
+                          <span
+                            class="iconify"
+                            data-icon="zmdi-delete"
+                            data-inline="false"
+                            style="color: red"
+                          ></span>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row justify-content-end">
+                <div class="panel-body">
+                  <div class="xs-mt-10 xs-mb-10">
+                    <div class="xs-mb-50 xs-mt-40">
+                      <pagination
+                        [itemsPerPage]="5"
+                        [(ngModel)]="currentPage"
+                        [totalItems]="usersToShow.length"
+                        (pageChanged)="pageChanged($event)"
+                      ></pagination>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

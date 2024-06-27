@@ -1,0 +1,25 @@
+
+
+/********** 3. HEADER STYLES **********/
+/**************************************/
+
+.headerwrapper {
+  background-color: #1f6b9e;
+  min-height: 62px;
+  width: 100%;
+  z-index: 1000;
+
+}
+.header-left {
+  float: left;
+}
+
+.header-right {
+  float: right;
+}
+
+a.btn.btn-social-icon.btn-github {
+  color: #fff;
+  border: 1px solid #fff;
+  margin: 10px;
+}

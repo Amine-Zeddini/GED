@@ -1,0 +1,197 @@
+
+<app-toolbar></app-toolbar>
+<app-side></app-side>
+
+<div class="" id="page-wrapper">
+  <div class="container-fluid">
+    <div class="row row-stat">
+      <div class="col-sm-6">
+        <div class="panel panel-default" style="height: 550px;">
+          <div class="panel-heading panel-heading-divider">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-6"> 
+              <span class="iconify" data-icon="zmdi:scanner" data-inline="false" style="margin: 10px;"></span>Scanner
+                </div>
+                <div class="col-sm-6"> 
+              <!-- <a (click)="readPdf()">    
+                 </a>      -->
+  
+                <div class="image-upload">
+                  <label for="file-input">
+                    <span class="iconify" data-icon="fa-solid:file-upload" data-inline="false"style="margin: 10px;"></span> Importer
+                  </label>
+                
+                  <input id="file-input"  [(ngModel)]="show"
+                  type="file" />
+                </div>
+
+                </div>
+            </div>           
+           </div>
+          </div>
+          <div class="panel-body">
+            <pdf-viewer *ngIf="show!=='' " [src]="pdfDocument" [original-size]="false"></pdf-viewer>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="panel panel-default" style="height: 550px;">
+          <div class="panel-heading panel-heading-divider">Ajouter un document</div>
+          <div class="panel-body">
+            <div id="errorMsg" *ngIf="errorMessage">
+              <span>{{ errorMessage }}</span>
+            </div>
+            <div id="successMsg" *ngIf="msSuccess">
+              <span>{{ msSuccess }}</span>
+            </div>
+            <div class="xs-mt-10 xs-mb-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <form
+                    class="form-horizontal"
+                    [formGroup]="documentForm"
+                    novalidate
+                    (ngSubmit)="addDocument()"
+                  >
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-5 control-label"
+                          for="form-control-1"
+                          >Titre:</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="title"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !documentForm.controls['title'].valid &&
+                              documentForm.controls['title'].touched
+                            "
+                          >
+                            title is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-5 control-label"
+                          for="form-control-1"
+                          >Description:</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="description"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !documentForm.controls['description'].valid &&
+                              documentForm.controls['description'].touched
+                            "
+                          >
+                          description is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  
+
+                 
+
+                  
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-5 control-label"
+                          for="form-control-9"
+                          >Administration</label
+                        >
+                        <div class="col-sm-7">
+                          <ng-select
+                            [items]="administrations"
+                            bindLabel="libelle"
+                            bindValue="_id"
+                            placeholder=" add  Document"
+                            formControlName="administrationID"
+                          >
+                          </ng-select>
+                          <span
+                            class="error"
+                            *ngIf="
+                              !documentForm.controls['administrationID'].valid &&
+                              documentForm.controls['administrationID'].touched
+                            "
+                          >
+                          administration is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-5 control-label"
+                          for="form-control-9"
+                          >Type de Document</label
+                        >
+                        <div class="col-sm-7">
+                          <ng-select
+                            [items]="typeDocuments"
+                            bindLabel="typeDocument"
+                            bindValue="_id"
+
+                            placeholder=" add type Document"
+                            formControlName="typeDocmentID"
+                          >
+                          </ng-select>
+                          <span
+                            class="error"
+                            *ngIf="
+                              !documentForm.controls['typeDocmentID'].valid &&
+                              documentForm.controls['typeDocmentID'].touched
+                            "
+                          >
+                            typeDocument is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                 
+
+                  
+
+
+                    <button
+                      class="btn postBtn"
+                      id="add"
+                      [disabled]="!documentForm.valid"
+                    >
+                      Ajouter
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

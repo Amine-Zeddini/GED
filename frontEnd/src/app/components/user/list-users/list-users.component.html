@@ -1,0 +1,361 @@
+<app-toolbar></app-toolbar>
+<app-side></app-side>
+
+<div class="" id="page-wrapper">
+  <div class="container-fluid">
+    <div class="row row-stat">
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-default panel-table">
+              <div class="panel-heading panel-heading-no-divider">Liste d'utilisateur</div>
+
+              <div class="container form-group">
+                <div class="col-sm-12">
+                  <input
+                    id="form-control-1"
+                    type="text"
+                    class="form-control"
+                    placeholder="Search Here"
+                    [(ngModel)]="search"
+                    (keyup)="searchUsers()"
+                  />
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 32px"></th>
+                      <th>Nom d'utilisateur</th>
+                      <th>Nom</th>
+                      <th>Prenom</th>
+                      <th>Email</th>
+                      <th>Rôle</th>
+                      <th>Date</th>
+
+                      <th style="width: 5%"></th>
+
+                      <th style="width: 5%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of usersPerPage">
+                      <td>
+                        <img
+                          class="non-responsive img-circle"
+                          src="http://res.cloudinary.com/dxlpuufpr/image/upload/v{{
+                            user.picVersion
+                          }}/{{ user.picId }}"
+                          width="32"
+                          height="32"
+                        />
+                      </td>
+                      <td>{{ user.username }}</td>
+                      <td>{{ user.name }}</td>
+                      <td>{{ user.lastName }}</td>
+
+                      <td>
+                        {{ user.email }}
+                      </td>
+
+                      <td>
+                        {{ user.role }}
+                      </td>
+                      <td>
+                        {{ user.created | date: "MMMM d, y" }}
+                      </td>
+
+                      <td class="actions">
+                        <a (click)="onEdit(user)">
+                          <span
+                            data-toggle="modal"
+                            data-target="#modal"
+                            class="iconify"
+                            data-icon="akar-icons:edit"
+                            data-inline="false"
+                            style="color: green"
+                          ></span>
+                        </a>
+                      </td>
+
+                      <td class="actions">
+                        <a (click)="openModalDelete(user)">
+                          <span
+                            data-toggle="modal"
+                            data-target="#modalDelete"
+                            class="iconify"
+                            data-icon="zmdi-delete"
+                            data-inline="false"
+                            style="color: red"
+                          ></span>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row justify-content-end">
+                <div class="panel-body">
+                  <div class="xs-mt-10 xs-mb-10">
+                    <div class="xs-mb-50 xs-mt-40">
+                      <pagination
+                        [itemsPerPage]="5"
+                        [(ngModel)]="currentPage"
+                        [totalItems]="usersToShow.length"
+                        (pageChanged)="pageChanged($event)"
+                      ></pagination>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- The Modal  edit -->
+
+<div class="modal fade" id="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        Modifier l'utilisateur
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="row row-stat">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div id="errorMsg" *ngIf="errorMessage">
+                <span>{{ errorMessage }}</span>
+              </div>
+              <div id="successMsg" *ngIf="msSuccess">
+                <span>{{ msSuccess }}</span>
+              </div>
+              <div class="xs-mt-10 xs-mb-10">
+                <div class="row">
+                  <div class="col-md-8">
+                    <form
+                    class="form-horizontal"
+                    [formGroup]="userForm"
+                    novalidate
+                    (ngSubmit)="editUser(user)"
+                  >
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-1"
+                          >prénom:</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="name"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !userForm.controls['name'].valid &&
+                              userForm.controls['name'].touched
+                            "
+                          >
+                            name is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-1"
+                          >Nom:</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="lastName"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !userForm.controls['lastName'].valid &&
+                              userForm.controls['lastName'].touched
+                            "
+                          >
+                            last Name is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-1"
+                          >Nom d'utilisateur</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="username"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !userForm.controls['username'].valid &&
+                              userForm.controls['username'].touched
+                            "
+                          >
+                            Username is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-1"
+                          >Email</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="email"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !userForm.controls['email'].valid &&
+                              userForm.controls['email'].touched
+                            "
+                          >
+                            Email is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-4"
+                          >mot de passe 
+                        </label>
+                        <div class="col-sm-9">
+                          <input
+                            id="form-control-4"
+                            class="form-control"
+                            type="password"
+                            formControlName="password"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !userForm.controls['password'].valid &&
+                              userForm.controls['password'].touched
+                            "
+                          >
+                            Password is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-9"
+                          >rôle</label
+                        >
+                        <div class="col-sm-9">
+                          <ng-select
+                            [items]="role"
+                            placeholder=" add role"
+                            formControlName="role"
+                          >
+                          </ng-select>
+                          <span
+                            class="error"
+                            *ngIf="
+                              !userForm.controls['role'].valid &&
+                              userForm.controls['role'].touched
+                            "
+                          >
+                            Role is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      class="btn postBtn"
+                      id="add"
+                      [disabled]="!userForm.valid"
+                    >
+                      Modifier
+                    </button>
+                  </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal  delete -->
+
+<div class="modal fade" id="modalDelete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        Supprimer l'utilisateur
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="row row-stat">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              Voulez-vous vraiment supprimer cet utilisateur
+              <a (click)="DeleteUser(user)" data-dismiss="modal">
+                <span
+                  class="iconify"
+                  data-icon="dashicons:yes-alt"
+                  data-inline="false"
+                  style="color: green; font-size: 40px"
+                >
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

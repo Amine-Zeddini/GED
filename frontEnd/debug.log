@@ -1,0 +1,4 @@
+[1013/190736.838:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d�acc�s sp�cifi� est introuvable. (0x3)
+[1014/100659.796:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d�acc�s sp�cifi� est introuvable. (0x3)
+[1014/100659.805:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\Amal\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\1c0ef436-57f7-4cb9-b4d2-64ce308c7aaa: Le chemin d�acc�s sp�cifi� est introuvable. (0x3)
+[1015/101523.119:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d�acc�s sp�cifi� est introuvable. (0x3)

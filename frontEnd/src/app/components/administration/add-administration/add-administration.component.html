@@ -1,0 +1,125 @@
+<app-toolbar></app-toolbar>
+<app-side></app-side>
+
+<div class="" id="page-wrapper">
+  <div class="container-fluid">
+    <div class="row row-stat">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading panel-heading-divider">
+            Ajouter une administration<span class="panel-subtitle"></span>
+          </div>
+          <div class="panel-body">
+            <div id="errorMsg" *ngIf="errorMessage">
+              <span>{{ errorMessage }}</span>
+            </div>
+            <div id="successMsg" *ngIf="msSuccess">
+              <span>{{ msSuccess }}</span>
+            </div>
+            <div class="xs-mt-10 xs-mb-10">
+              <div class="row">
+                <div class="col-md-8">
+                  <form
+                    class="form-horizontal"
+                    [formGroup]="administrationForm"
+                    novalidate
+                    (ngSubmit)="addAdministration()"
+                  >
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-1"
+                          >Numéro:</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="code"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !administrationForm.controls['code'].valid &&
+                              administrationForm.controls['code'].touched
+                            "
+                          >
+                            Number is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-9"
+                          >Gouvernorat</label
+                        >
+                        <div class="col-sm-9">
+                          <ng-select
+                            [items]="title"
+                            placeholder=" add Gouvernorat"
+                            formControlName="title"
+                          >
+                          </ng-select>
+                          <span
+                            class="error"
+                            *ngIf="
+                              !administrationForm.controls['title'].valid &&
+                              administrationForm.controls['title'].touched
+                            "
+                          >
+                            Governorate is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <label
+                          class="col-sm-3 control-label"
+                          for="form-control-1"
+                          >Libelle</label
+                        >
+                        <div class="col-sm-9">
+                          <input
+                            id="form-control-1"
+                            class="form-control"
+                            type="text"
+                            formControlName="libelle"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              !administrationForm.controls['libelle'].valid &&
+                              administrationForm.controls['libelle'].touched
+                            "
+                          >
+                            Libelle is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      class="btn postBtn"
+                      id="add"
+                      [disabled]="!administrationForm.valid"
+                    >
+                      Ajouter
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
